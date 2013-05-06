@@ -1,5 +1,5 @@
 /**
- * @link http://www.yiiframework.com/
+ * @link http://www.yiiframework.com/extension/assetparser/
  * @copyright Copyright (c) 2011 Michel Bobillier Aka Athos99
  * @license GNU General Public License v3 http://www.gnu.org/licenses/gpl.html
  * @version 1.0.0 (2011-05-05)
