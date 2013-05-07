@@ -1,7 +1,7 @@
 <?php
 namespace app\extensions\assetparser;
 use Yii;
-
+use yii\caching\FileCache;
 
 
 class Less extends Parser
@@ -14,10 +14,6 @@ class Less extends Parser
     public $auto = false;
 
 
-    public function init()
-    {
-        require_once(Yii::getAlias($this->lessParserPath));
-    }
 
 
     /**
@@ -27,8 +23,9 @@ class Less extends Parser
     {
         $this->auto = isset($options['auto']) ? $options['auto'] : $this->auto;
         try {
+            require_once(Yii::getAlias($this->lessParserPath));
             if ($this->auto) {
-                /* @var caching\FileCache $cacheMgr */
+                /* @var FileCache $cacheMgr */
                 $cacheMgr = Yii::createObject('yii\caching\FileCache');
                 $cacheMgr->init();
                 $cacheId = 'less#' . $dst;

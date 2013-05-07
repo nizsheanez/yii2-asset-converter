@@ -6,9 +6,15 @@ class Sass extends Parser
 {
 
     /**
-     * @var string the class pointing to where sass parser is located.
+     * @var string to the class pointing to where sass parser is located.
      */
     public $sassParserClass = '@app/extensions/assetparser/vendors/phamlp/sass/SassParser';
+
+    /**
+     * @var string to the sass parser cache
+     */
+
+    public $cachePath = '@app/runtime/cache/sass-parser';
 
     /**
      * Parse a Sass file to CSS

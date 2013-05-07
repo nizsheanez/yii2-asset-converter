@@ -61,8 +61,7 @@ class Converter extends Component implements IAssetConverter
                 $parserConfig = $this->parsers[$ext];
                 $result = substr($asset, 0, $pos + 1) . $parserConfig['output'];
                 if ($this->force || (@filemtime("$basePath/$result") < filemtime("$basePath/$asset"))) {
-                    $parser = new $parserConfig['class']();
-                    $parser->init();
+                    $parser = new $parserConfig['class']($parserConfig['options']);
                     $parser->parse("$basePath/$asset", "$basePath/$result", isset($parserConfig['options']) ? $parserConfig['options'] : array());
                     if (YII_DEBUG) {
                         Yii::info("Converted $asset into $result ", __CLASS__);
