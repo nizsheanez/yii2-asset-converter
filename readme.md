@@ -63,20 +63,24 @@ return array(
 
 ##Resources
 
+* github archives :  [https://github.com/athos99/assetparser/](https://github.com/athos99/assetparser/ "https://github.com/athos99/assetparser/")
 
-* github archives :  [https://github.com/athos99/assetparser](https://github.com/athos99/assetparser "https://github.com/athos99/assetparser")
 * YII Project page : [http://www.yiiframework.com/extension/assetparser/](http://www.yiiframework.com/extension/assetparser/ "http://www.yiiframework.com/extension/assetparser/")
 
 ##Q & A
 
 ###Where can find a installation example of this extension ?
-Decompress the archive assetparser_example.zip
+Decompress the archive
+[assetparser_example.zip](www.yiiframework.com/extension/assetparser/files/assetparser_example.zip "assetparser_example.zip")
+
 copy to your yii/apps/assetparser
+
 you need to change your apps/assetparser/.htaccess
 
 Try it : http://localhost/yii2/apps/assetparser/
 
 You have a sass file in yii2/apps/assetparser/css/sass_style.sass and less file in yii2/apps/assetparser/css/less_style.less
+
 After running your application yii2/apps/assetparser/css/sass_style.css and yii2/apps/assetparser/css/less_style.css are generated
 
 ###It's possible to chose a another folder that {app}/protected/extensions/assetparser ?
@@ -86,9 +90,13 @@ It's possible to adapt assetparser to your spcific environement, it's little bit
 
 For exeample :
 Yii Framework : C:\www\xxx\vendor\yiisoft\yii2\framework
+
 Web application: C:\www\xxx\web\index.php
+
 assertparser extension: C:\www\xxx\vendor\yii-ext\assetparser
+
 Config file : C:\www\xxx\app\config\main.php
+
 
 1) Adapt the configuration file (main.php)
 In my example : C:\www\xxx\app\config\main.php
@@ -142,6 +150,7 @@ You need to update lessParserPath defintion to you specific environement
 2) You need declare some classMap to YII, because your folder filepath are not standart with YII2 namespace
 
 There are two possibilities
+
 2a) Modifie your index.php  ( C:\www\xxx\web\index.php)
 
 
@@ -163,6 +172,7 @@ $application->run();
 ~~~
 
 2b) Modifie your main.php (  C:\www\xxx\app\config\main.php)
+
 ~~~
 [php]
 <?php
@@ -178,5 +188,3 @@ return array(
 .....
 
 ~~~
-
-
