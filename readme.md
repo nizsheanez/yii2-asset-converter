@@ -68,7 +68,19 @@ return array(
 * YII Project page : [http://www.yiiframework.com/extension/assetparser/](http://www.yiiframework.com/extension/assetparser/ "http://www.yiiframework.com/extension/assetparser/")
 
 ##Q & A
-It's possible to chose a another folder that {app}/protected/extensions/assetparser ?
+
+###Where can find a installation example of this extension ?
+Decompress the archive assetparser_example.zip
+copy to your yii/apps/assetparser
+you need to change your apps/assetparser/.htaccess
+
+Try it : http://localhost/yii2/apps/assetparser/
+
+You have a sass file in yii2/apps/assetparser/css/sass_style.sass and less file in yii2/apps/assetparser/css/less_style.less
+After running your application yii2/apps/assetparser/css/sass_style.css and yii2/apps/assetparser/css/less_style.css are generated
+
+###It's possible to chose a another folder that {app}/protected/extensions/assetparser ?
+
 Yes It Is !
 It's possible to adapt assetparser to your spcific environement, it's little bit complex (You need version 1.0.1)
 
