@@ -64,8 +64,8 @@ return array(
 ##Resources
 
 
- * Project page : [https://github.com/athos99/assetparser](https://github.com/athos99/assetparser "https://github.com/athos99/assetparser")
-
+* github archives :  [https://github.com/athos99/assetparser](https://github.com/athos99/assetparser "https://github.com/athos99/assetparser")
+* YII Project page : [http://www.yiiframework.com/extension/assetparser/](http://www.yiiframework.com/extension/assetparser/ "http://www.yiiframework.com/extension/assetparser/")
 
 ##Q & A
 It's possible to chose a another folder that {app}/protected/extensions/assetparser ?
