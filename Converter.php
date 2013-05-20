@@ -49,10 +49,9 @@ class Converter extends Component implements IAssetConverter
      * Converts a given asset file into a CSS or JS file.
      * @param string $asset the asset file path, relative to $basePath
      * @param string $basePath the directory the $asset is relative to.
-     * @param string $baseUrl the URL corresponding to $basePath
-     * @return string the URL to the converted asset file.
+     * @return string the converted asset file path, relative to $basePath.
      */
-    public function convert($asset, $basePath, $baseUrl)
+    public function convert($asset, $basePath)
     {
         $pos = strrpos($asset, '.');
         if ($pos !== false) {
@@ -67,10 +66,10 @@ class Converter extends Component implements IAssetConverter
                         Yii::info("Converted $asset into $result ", __CLASS__);
                     }
                 }
-                return "$baseUrl/$result";
+                return $result;
 
             }
         }
-        return "$baseUrl/$asset";
+        return $asset;
     }
 }
