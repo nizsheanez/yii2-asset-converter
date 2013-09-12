@@ -6,7 +6,7 @@
  * @version 1.0.0 (2011-05-05)
  */
 
-namespace app\extensions\assetparser;
+namespace nizsheanez\assetConverter;
 use Yii;
 use yii\base\Component;
 use yii\web\IAssetConverter;

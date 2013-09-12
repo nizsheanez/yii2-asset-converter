@@ -1,5 +1,5 @@
 <?php
-namespace app\extensions\assetparser;
+namespace nizsheanez\assetConverter;
 use Yii;
 use yii\caching\FileCache;
 
