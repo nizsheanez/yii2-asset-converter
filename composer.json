@@ -14,6 +14,9 @@
             "role": "Contributor"
         }
     ],
+    "require" : {
+        "leafo/lessphp": "0.4.*"
+    },
     "autoload": {
         "psr-0": { "app\\extensions\\assetparser": "" }
     }
