@@ -44,6 +44,8 @@ class Converter extends Component implements IAssetConverter
      */
     public $force = false;
 
+    public $dist;
+
 
     /**
      * Converts a given asset file into a CSS or JS file.
@@ -61,7 +63,12 @@ class Converter extends Component implements IAssetConverter
                 $result = substr($asset, 0, $pos + 1) . $parserConfig['output'];
                 if ($this->force || (@filemtime("$basePath/$result") < filemtime("$basePath/$asset"))) {
                     $parser = new $parserConfig['class']($parserConfig['options']);
-                    $parser->parse("$basePath/$asset", "$basePath/$result", isset($parserConfig['options']) ? $parserConfig['options'] : array());
+                    $dist = $this->dist ? Yii::getAlias($this->dist) : "$basePath";
+                    $distDir  = dirname("$dist/$result");
+                    if (!is_dir($distDir)) {
+                        mkdir($distDir, '0755', true);
+                    }
+                    $parser->parse("$basePath/$asset", "$distDir/$result", isset($parserConfig['options']) ? $parserConfig['options'] : array());
                     if (YII_DEBUG) {
                         Yii::info("Converted $asset into $result ", __CLASS__);
                     }
