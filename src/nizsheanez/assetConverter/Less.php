@@ -6,11 +6,6 @@ use yii\caching\FileCache;
 
 class Less extends Parser
 {
-    /**
-     * @var string the directory or path alias pointing to where less parser is located.
-     */
-    public $lessParserPath = '@app/extensions/assetparser/vendors/lessphp/lessc.inc.php';
-
     public $auto = false;
 
 
@@ -23,7 +18,6 @@ class Less extends Parser
     {
         $this->auto = isset($options['auto']) ? $options['auto'] : $this->auto;
         try {
-            require_once(Yii::getAlias($this->lessParserPath));
             if ($this->auto) {
                 /* @var FileCache $cacheMgr */
                 $cacheMgr = Yii::createObject('yii\caching\FileCache');

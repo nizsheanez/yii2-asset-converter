@@ -18,19 +18,19 @@ class Converter extends Component implements IAssetConverter
      */
     public $parsers = array(
         'sass' => array( // file extension to parse
-            'class' => 'app\extensions\assetparser\Sass',
+            'class' => 'nizsheanez\assetConverter\Sass',
             'output' => 'css', // parsed output file type
             'options' => array(
                 'cachePath' => '@app/runtime/cache/sass-parser' // optional options
             ),
         ),
         'scss' => array( // file extension to parse
-            'class' => 'app\extensions\assetparser\Sass',
+            'class' => 'nizsheanez\assetConverter\Sass',
             'output' => 'css', // parsed output file type
             'options' => array() // optional options
         ),
         'less' => array( // file extension to parse
-            'class' => 'app\extensions\assetparser\Less',
+            'class' => 'nizsheanez\assetConverter\Less',
             'output' => 'css', // parsed output file type
             'options' => array(
                 'auto' => true // optional options
@@ -68,7 +68,7 @@ class Converter extends Component implements IAssetConverter
                     if (!is_dir($distDir)) {
                         mkdir($distDir, '0755', true);
                     }
-                    $parser->parse("$basePath/$asset", "$distDir/$result", isset($parserConfig['options']) ? $parserConfig['options'] : array());
+                    $parser->parse("$basePath/$asset", "$dist/$result", isset($parserConfig['options']) ? $parserConfig['options'] : array());
                     if (YII_DEBUG) {
                         Yii::info("Converted $asset into $result ", __CLASS__);
                     }
