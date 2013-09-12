@@ -15,6 +15,6 @@
         }
     ],
     "autoload": {
-        "psr-0": { "app\extensions\assetparser": "" }
+        "psr-0": { "app\\extensions\\assetparser": "" }
     }
 }
