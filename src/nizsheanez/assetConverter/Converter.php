@@ -46,6 +46,7 @@ class Converter extends Component implements IAssetConverter
 
     public $dist;
 
+    public $baseUrl;
 
     /**
      * Converts a given asset file into a CSS or JS file.
@@ -56,27 +57,29 @@ class Converter extends Component implements IAssetConverter
     public function convert($asset, $basePath)
     {
         $pos = strrpos($asset, '.');
-        if ($pos !== false) {
-            $ext = substr($asset, $pos + 1);
-            if (isset($this->parsers[$ext])) {
-                $parserConfig = $this->parsers[$ext];
-                $result = substr($asset, 0, $pos + 1) . $parserConfig['output'];
-                if ($this->force || (@filemtime("$basePath/$result") < filemtime("$basePath/$asset"))) {
-                    $parser = new $parserConfig['class']($parserConfig['options']);
-                    $dist = $this->dist ? Yii::getAlias($this->dist) : "$basePath";
-                    $distDir  = dirname("$dist/$result");
-                    if (!is_dir($distDir)) {
-                        mkdir($distDir, '0755', true);
-                    }
-                    $parser->parse("$basePath/$asset", "$dist/$result", isset($parserConfig['options']) ? $parserConfig['options'] : array());
-                    if (YII_DEBUG) {
-                        Yii::info("Converted $asset into $result ", __CLASS__);
-                    }
-                }
-                return $result;
+        if ($pos === false) {
+            return $asset;
+        }
 
+        $ext = substr($asset, $pos + 1);
+        if (!isset($this->parsers[$ext])) {
+            return $asset;
+        }
+
+        $parserConfig = $this->parsers[$ext];
+        $result = substr($asset, 0, $pos + 1) . $parserConfig['output'];
+        if ($this->force || (@filemtime("$basePath/$result") < filemtime("$basePath/$asset"))) {
+            $parser = new $parserConfig['class']($parserConfig['options']);
+            $dist = $this->dist ? Yii::getAlias($this->dist) : "$basePath";
+            $distDir  = dirname("$dist/$result");
+            if (!is_dir($distDir)) {
+                mkdir($distDir, '0755', true);
+            }
+            $parser->parse("$basePath/$asset", "$dist/$result", isset($parserConfig['options']) ? $parserConfig['options'] : array());
+            if (YII_DEBUG) {
+                Yii::info("Converted $asset into $result ", __CLASS__);
             }
         }
-        return $asset;
+        return $this->baseUrl . '/' . $result;
     }
 }
