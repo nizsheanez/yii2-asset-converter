@@ -23,7 +23,7 @@ YII 2.0
         ),
 ~~~
 
-'Force'=>true : If you want convert your sass each time without time dependency
+'force'=>true : If you want convert your sass each time without time dependency
 
 The sass files with extension .sass are converted to a .css file
 The less files with extension .less are converted to a .css file
@@ -115,7 +115,8 @@ In my example : C:\www\xxx\app\config\main.php
             'converter'=>array(
                 'class'=>'nizsheanez\assetParser\Converter',
                 'force'=>false,
-                 'parsers' => array(
+                'dist' => 'compiled', //at which folder of @webroot put compiled files
+                'parsers' => array(
                     'sass' => array( // file extension to parse
                         'class' => 'nizsheanez\assetParser\Sass',
                         'output' => 'css', // parsed output file type
