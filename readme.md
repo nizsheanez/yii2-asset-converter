@@ -17,7 +17,7 @@ YII 2.0
         'assetManager' => array(
             'bundles' => require(__DIR__ . '/assets.php'),
             'converter'=>array(
-                'class'=>'app\extensions\assetparser\Converter',
+                'class'=>'nizsheanez\assetConverter\Converter',
                 'force'=>false
             )
         ),
@@ -63,9 +63,7 @@ return array(
 
 ##Resources
 
-* github archives :  [https://github.com/athos99/assetparser/](https://github.com/athos99/assetparser/ "https://github.com/athos99/assetparser/")
-
-* YII Project page : [http://www.yiiframework.com/extension/assetparser/](http://www.yiiframework.com/extension/assetparser/ "http://www.yiiframework.com/extension/assetparser/")
+* github archives :  [https://github.com/nizsheanez/yii2-asset-converter/](https://github.com/nizsheanez/yii2-asset-converter/ "https://github.com/nizsheanez/yii2-asset-converter/")
 
 ##Q & A
 
@@ -83,20 +81,23 @@ You have a sass file in yii2/apps/assetparser/css/sass_style.sass and less file 
 
 After running your application yii2/apps/assetparser/css/sass_style.css and yii2/apps/assetparser/css/less_style.css are generated
 
-###It's possible to chose a another folder that {app}/protected/extensions/assetparser ?
+###Install with Composer
 
-Yes It Is !
-It's possible to adapt assetparser to your spcific environement, it's little bit complex (You need version 1.0.1)
+~~~
 
-For exeample :
-Yii Framework : C:\www\xxx\vendor\yiisoft\yii2\framework
+"require": {
+    "nizsheanez/yii2-asset-converter": "dev-master",
+},
+"repositories":[
+    {
+        "type": "git",
+        "url": "https://github.com/nizsheanez/yii2-asset-converter"
+    }
+],
 
-Web application: C:\www\xxx\web\index.php
+php composer.phar update
 
-assertparser extension: C:\www\xxx\vendor\yii-ext\assetparser
-
-Config file : C:\www\xxx\app\config\main.php
-
+~~~
 
 1) Adapt the configuration file (main.php)
 In my example : C:\www\xxx\app\config\main.php
@@ -112,27 +113,26 @@ In my example : C:\www\xxx\app\config\main.php
 		'assetManager' => array(
             'bundles' => require(__DIR__ . '/assets.php'),
             'converter'=>array(
-                'class'=>'app\extensions\assetparser\Converter',
+                'class'=>'nizsheanez\assetParser\Converter',
                 'force'=>false,
                  'parsers' => array(
                     'sass' => array( // file extension to parse
-                        'class' => 'app\extensions\assetparser\Sass',
+                        'class' => 'nizsheanez\assetParser\Sass',
                         'output' => 'css', // parsed output file type
                         'options' => array(
                             'cachePath' => '@app/runtime/cache/sass-parser' // optional options
                         ),
                     ),
                     'scss' => array( // file extension to parse
-                        'class' => 'app\extensions\assetparser\Sass',
+                        'class' => 'nizsheanez\assetParser\Sass',
                         'output' => 'css', // parsed output file type
                         'options' => array() // optional options
                     ),
                     'less' => array( // file extension to parse
-                        'class' => 'app\extensions\assetparser\Less',
+                        'class' => 'nizsheanez\assetParser\Less',
                         'output' => 'css', // parsed output file type
                         'options' => array(
                             'auto' => true, // optional options
-                            'lessParserPath' => __DIR__ . '/../../vendor/yii-ext/assetparser/vendors/lessphp/lessc.inc.php'
                         )
                     )
                 )

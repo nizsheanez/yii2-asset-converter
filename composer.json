@@ -1,6 +1,6 @@
 {
     "name": "nizsheanez/yii2-asset-converter",
-    "description": "Sass and Lass converter for Yii2",
+    "description": "Sass and Lass converter for Yii2. Fork of https://github.com/athos99/assetparser with Composer support, less autoupdate by composer, customizing of output directory",
     "type": "library",
     "authors": [
         {
@@ -11,7 +11,7 @@
         {
             "name": "Alex Sharov",
             "email": "www.pismeco@gmail.com",
-            "role": "Contributor"
+            "role": "Fork Author"
         }
     ],
     "require" : {
