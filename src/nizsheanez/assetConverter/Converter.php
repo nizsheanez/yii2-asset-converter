@@ -44,6 +44,9 @@ class Converter extends Component implements IAssetConverter
      */
     public $force = false;
 
+    /**
+     * @var string some directory in @webroot for compiled files. Will using like Yii::getAlias('@webroot/' . $this->dist)
+     */
     public $dist;
 
     /**
@@ -54,30 +57,44 @@ class Converter extends Component implements IAssetConverter
      */
     public function convert($asset, $basePath)
     {
-        $pos = strrpos($asset, '.');
-        if ($pos === false) {
+        if (!$this->dist) {
+            throw new \Exception('$dist property must be specify');
+        }
+
+        $extensionPos = strrpos($asset, '.');
+        if ($extensionPos === false) {
             return $asset;
         }
 
-        $ext = substr($asset, $pos + 1);
+        $ext = substr($asset, $extensionPos + 1);
         if (!isset($this->parsers[$ext])) {
             return $asset;
         }
 
         $parserConfig = $this->parsers[$ext];
-        $result = substr($asset, 0, $pos + 1) . $parserConfig['output'];
-        if ($this->force || (@filemtime("$basePath/$result") < filemtime("$basePath/$asset"))) {
+        $resultFile = substr($asset, 0, $extensionPos + 1) . $parserConfig['output'];
+
+        if ($this->force || (@filemtime("$basePath/$resultFile") < filemtime("$basePath/$asset"))) {
+            $dist = $this->getDestinationDir($basePath, $resultFile);
             $parser = new $parserConfig['class']($parserConfig['options']);
-            $dist = $this->dist ? Yii::getAlias('@webroot/' . $this->dist) : "$basePath";
-            $distDir  = dirname("$dist/$result");
-            if (!is_dir($distDir)) {
-                mkdir($distDir, '0755', true);
-            }
-            $parser->parse("$basePath/$asset", "$dist/$result", isset($parserConfig['options']) ? $parserConfig['options'] : array());
+            $parserOptions = isset($parserConfig['options']) ? $parserConfig['options'] : array();
+            $parser->parse("$basePath/$asset", "$dist/$resultFile", $parserOptions);
+
             if (YII_DEBUG) {
-                Yii::info("Converted $asset into $result ", __CLASS__);
+                Yii::info("Converted $asset into $resultFile ", __CLASS__);
             }
         }
-        return $this->dist . '/' . $result;
+
+        return $this->dist . '/' . $resultFile;
+    }
+
+    public function getDestinationDir($basePath, $resultFile)
+    {
+        $dist = $this->dist ? Yii::getAlias('@webroot/' . $this->dist) : "$basePath";
+        $distDir  = dirname("$dist/$resultFile");
+        if (!is_dir($distDir)) {
+            mkdir($distDir, '0755', true);
+        }
+        return $dist;
     }
 }
