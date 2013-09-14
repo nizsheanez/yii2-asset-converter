@@ -28,7 +28,6 @@ php composer.phar update
         'bundles' => require(__DIR__ . '/assets.php'),
         'converter'=>array(
             'class'=>'nizsheanez\assetConverter\Converter',
-            'dist' => 'compiled', //at which folder of @webroot put compiled files
         )
     ),
 ~~~
@@ -39,8 +38,6 @@ php composer.phar update
 - Files with extension .sass are converted to a .css file
 - Files with extension .less are converted to a .css file
 - Files with extension .scss are converted to a .css file
-
-
 
 ###Example of assets config file /protected/config/assets.php
 
@@ -68,6 +65,12 @@ return array(
 
 ~~~
 
+###Where is compiled files?
+
+By default it present at @webroot/compiled
+But you can change it by destinationDir property from config
+
+
 ### Full configuration
 
 ~~~php
@@ -78,7 +81,7 @@ return array(
             'converter'=>array(
                 'class'=>'nizsheanez\assetParser\Converter',
                 'force'=>false, // true : If you want convert your sass each time without time dependency
-                'dist' => 'compiled', //at which folder of @webroot put compiled files
+                'destinationDir' => 'compiled', //at which folder of @webroot put compiled files
                 'parsers' => array(
                     'sass' => array( // file extension to parse
                         'class' => 'nizsheanez\assetParser\Sass',

@@ -47,7 +47,7 @@ class Converter extends \yii\web\AssetConverter
     /**
      * @var string some directory in @webroot for compiled files. Will using like Yii::getAlias('@webroot/' . $this->destinationDir)
      */
-    public $destinationDir;
+    public $destinationDir = 'compiled';
 
     /**
      * Converts a given asset file into a CSS or JS file.
@@ -75,10 +75,10 @@ class Converter extends \yii\web\AssetConverter
         $resultFile = substr($asset, 0, $extensionPos + 1) . $parserConfig['output'];
 
         if ($this->force || (@filemtime("$basePath/$resultFile") < filemtime("$basePath/$asset"))) {
-            $dist = $this->getDestinationDir($resultFile);
+            $this->checkDestinationDir($resultFile);
             $parser = new $parserConfig['class']($parserConfig['options']);
             $parserOptions = isset($parserConfig['options']) ? $parserConfig['options'] : array();
-            $parser->parse("$basePath/$asset", "$dist/$resultFile", $parserOptions);
+            $parser->parse("$basePath/$asset", "{$this->destinationDir}/$resultFile", $parserOptions);
 
             if (YII_DEBUG) {
                 Yii::info("Converted $asset into $resultFile ", __CLASS__);
@@ -88,12 +88,12 @@ class Converter extends \yii\web\AssetConverter
         return $this->destinationDir . '/' . $resultFile;
     }
 
-    public function getDestinationDir($resultFile)
+    public function checkDestinationDir($resultFile)
     {
-        $distDir  = dirname("{$this->destinationDir}/$resultFile");
+        $dist = Yii::getAlias('@webroot/' . $this->destinationDir);
+        $distDir  = dirname("{$dist}/$resultFile");
         if (!is_dir($distDir)) {
             mkdir($distDir, '0755', true);
         }
-        return $distDir;
     }
 }
