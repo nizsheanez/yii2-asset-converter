@@ -17,7 +17,8 @@
         }
     ],
     "require" : {
-        "leafo/lessphp": "0.4.*"
+        "leafo/lessphp": "0.4.*",
+        "richthegeek/phpsass": "dev-master"
     },
     "autoload": {
         "psr-0": { "nizsheanez": "src" }
