@@ -33,9 +33,9 @@ php composer.phar update
 
 3) Enjoy!
 
-Files with extension .sass are converted to a .css file
-Files with extension .less are converted to a .css file
-Files with extension .scss are converted to a .css file
+- Files with extension .sass are converted to a .css file
+- Files with extension .less are converted to a .css file
+- Files with extension .scss are converted to a .css file
 
 
 
@@ -70,9 +70,6 @@ return array(
 ~~~php
 
 'components' => array(
-
-....
-
 		'assetManager' => array(
             'bundles' => require(__DIR__ . '/assets.php'),
             'converter'=>array(
@@ -104,4 +101,4 @@ return array(
         ),
 	),
 
-.....
+~~~
