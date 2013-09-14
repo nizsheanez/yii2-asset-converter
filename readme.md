@@ -46,9 +46,9 @@ php composer.phar update
 
 return array(
 	'app' => array(
-		'basePath' => '@wwwroot',
-		'baseUrl' => '@www',
-		'css' => array(
+		'basePath' => '@webroot',
+		'baseUrl' => '@web',
+        'css' => array(
 			'css/bootstrap.min.css',
 			'css/bootstrap-responsive.min.css',
 			'css/site.css',
