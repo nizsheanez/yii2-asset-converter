@@ -2,11 +2,11 @@ Only for YII2 with the new Asset Manager, convert Less and Sass files to CSS whi
 It replace the AssetConverter who use external tools.
 The Less and Sass file are converted with time source files dependency.
 
-##Requirements
+###Requirements
 
 YII 2.0
 
-##Usage
+###Usage
 
 1) Install with Composer
 
@@ -41,7 +41,7 @@ Files with extension .scss are converted to a .css file
 
 
 
-##Example of assets config file /protected/config/assets.php
+###Example of assets config file /protected/config/assets.php
 
 ~~~
 [php]
@@ -69,7 +69,7 @@ return array(
 
 ~~~
 
-## Full configuration
+### Full configuration
 
 ~~~
 [php]
