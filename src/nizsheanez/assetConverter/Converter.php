@@ -45,9 +45,9 @@ class Converter extends \yii\web\AssetConverter
     public $force = false;
 
     /**
-     * @var string some directory in @webroot for compiled files. Will using like Yii::getAlias('@webroot/' . $this->dist)
+     * @var string some directory in @webroot for compiled files. Will using like Yii::getAlias('@webroot/' . $this->destinationDir)
      */
-    public $dist;
+    public $destinationDir;
 
     /**
      * Converts a given asset file into a CSS or JS file.
@@ -57,8 +57,8 @@ class Converter extends \yii\web\AssetConverter
      */
     public function convert($asset, $basePath)
     {
-        if (!$this->dist) {
-            throw new \Exception('$dist property must be specify');
+        if (!$this->destinationDir) {
+            throw new \Exception('$destinationDir property must be specify');
         }
 
         $extensionPos = strrpos($asset, '.');
@@ -75,7 +75,7 @@ class Converter extends \yii\web\AssetConverter
         $resultFile = substr($asset, 0, $extensionPos + 1) . $parserConfig['output'];
 
         if ($this->force || (@filemtime("$basePath/$resultFile") < filemtime("$basePath/$asset"))) {
-            $dist = $this->getDestinationDir($basePath, $resultFile);
+            $dist = $this->getDestinationDir($resultFile);
             $parser = new $parserConfig['class']($parserConfig['options']);
             $parserOptions = isset($parserConfig['options']) ? $parserConfig['options'] : array();
             $parser->parse("$basePath/$asset", "$dist/$resultFile", $parserOptions);
@@ -85,16 +85,15 @@ class Converter extends \yii\web\AssetConverter
             }
         }
 
-        return $this->dist . '/' . $resultFile;
+        return $this->destinationDir . '/' . $resultFile;
     }
 
-    public function getDestinationDir($basePath, $resultFile)
+    public function getDestinationDir($resultFile)
     {
-        $dist = $this->dist ? Yii::getAlias('@webroot/' . $this->dist) : "$basePath";
-        $distDir  = dirname("$dist/$resultFile");
+        $distDir  = dirname("{$this->destinationDir}/$resultFile");
         if (!is_dir($distDir)) {
             mkdir($distDir, '0755', true);
         }
-        return $dist;
+        return $distDir;
     }
 }
