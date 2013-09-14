@@ -11,7 +11,7 @@ use Yii;
 use yii\base\Component;
 use yii\web\IAssetConverter;
 
-class Converter extends Component implements IAssetConverter
+class Converter extends \yii\web\AssetConverter
 {
     /**
      * @var array parsers
@@ -68,7 +68,7 @@ class Converter extends Component implements IAssetConverter
 
         $ext = substr($asset, $extensionPos + 1);
         if (!isset($this->parsers[$ext])) {
-            return $asset;
+            return parent::convert($asset, $basePath);
         }
 
         $parserConfig = $this->parsers[$ext];
