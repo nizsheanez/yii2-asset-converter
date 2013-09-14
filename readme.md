@@ -1,4 +1,5 @@
-Only for YII2 with the new Asset Manager, convert Less and Sass files to CSS whithout external tools and executable. The sass and less files are converted with PHP librairies
+Only for YII2 with the new Asset Manager, convert Less and Sass files to CSS whithout external tools and executable.
+The sass and less files are converted with PHP librairies
 It replace the AssetConverter who use external tools.
 The Less and Sass file are converted with time source files dependency.
 
@@ -74,7 +75,7 @@ return array(
             'bundles' => require(__DIR__ . '/assets.php'),
             'converter'=>array(
                 'class'=>'nizsheanez\assetParser\Converter',
-                'force'=>false, //'force'=>true : If you want convert your sass each time without time dependency
+                'force'=>false, // true : If you want convert your sass each time without time dependency
                 'dist' => 'compiled', //at which folder of @webroot put compiled files
                 'parsers' => array(
                     'sass' => array( // file extension to parse
