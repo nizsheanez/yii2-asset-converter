@@ -14,7 +14,7 @@ YII 2.0
 ~~~php
 
 "require": {
-    "nizsheanez/yii2-asset-converter": "dev-master",
+    "nizsheanez/yii2-asset-converter": "1.*",
 },
 
 php composer.phar update
