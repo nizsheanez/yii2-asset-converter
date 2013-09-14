@@ -57,13 +57,9 @@ class Converter extends \yii\web\AssetConverter
      */
     public function convert($asset, $basePath)
     {
-        if (!$this->destinationDir) {
-            throw new \Exception('$destinationDir property must be specify');
-        }
-
         $extensionPos = strrpos($asset, '.');
         if ($extensionPos === false) {
-            return $asset;
+            return parent::convert($asset, $basePath);
         }
 
         $ext = substr($asset, $extensionPos + 1);
