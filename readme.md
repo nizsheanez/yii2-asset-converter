@@ -10,8 +10,7 @@ YII 2.0
 
 1) Install with Composer
 
-~~~
-[php]
+~~~php
 
 "require": {
     "nizsheanez/yii2-asset-converter": "dev-master",
@@ -23,8 +22,7 @@ php composer.phar update
 
 2) Modify assetManager in your configuration file {app}/protected/config/main.php
 
-~~~
-[php]
+~~~php
     'assetManager' => array(
         'bundles' => require(__DIR__ . '/assets.php'),
         'converter'=>array(
@@ -43,9 +41,7 @@ Files with extension .scss are converted to a .css file
 
 ###Example of assets config file /protected/config/assets.php
 
-~~~
-[php]
-<?php
+~~~php
 
 return array(
 	'app' => array(
@@ -71,9 +67,7 @@ return array(
 
 ### Full configuration
 
-~~~
-[php]
-<?php
+~~~php
 
 'components' => array(
 
