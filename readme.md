@@ -76,35 +76,34 @@ But you can change it by destinationDir property from config
 ~~~php
 
 'components' => array(
-		'assetManager' => array(
-            'bundles' => require(__DIR__ . '/assets.php'),
-            'converter'=>array(
-                'class'=>'nizsheanez\assetParser\Converter',
-                'force'=>false, // true : If you want convert your sass each time without time dependency
-                'destinationDir' => 'compiled', //at which folder of @webroot put compiled files
-                'parsers' => array(
-                    'sass' => array( // file extension to parse
-                        'class' => 'nizsheanez\assetParser\Sass',
-                        'output' => 'css', // parsed output file type
-                        'options' => array(
-                            'cachePath' => '@app/runtime/cache/sass-parser' // optional options
-                        ),
+	'assetManager' => array(
+        'converter'=>array(
+            'class'=>'nizsheanez\assetConverter\Converter',
+            'force'=>false, // true : If you want convert your sass each time without time dependency
+            'destinationDir' => 'compiled', //at which folder of @webroot put compiled files
+            'parsers' => array(
+                'sass' => array( // file extension to parse
+                    'class' => 'nizsheanez\assetConverter\Sass',
+                    'output' => 'css', // parsed output file type
+                    'options' => array(
+                        'cachePath' => '@app/runtime/cache/sass-parser' // optional options
                     ),
-                    'scss' => array( // file extension to parse
-                        'class' => 'nizsheanez\assetParser\Sass',
-                        'output' => 'css', // parsed output file type
-                        'options' => array() // optional options
-                    ),
-                    'less' => array( // file extension to parse
-                        'class' => 'nizsheanez\assetParser\Less',
-                        'output' => 'css', // parsed output file type
-                        'options' => array(
-                            'auto' => true, // optional options
-                        )
+                ),
+                'scss' => array( // file extension to parse
+                    'class' => 'nizsheanez\assetConverter\Sass',
+                    'output' => 'css', // parsed output file type
+                    'options' => array() // optional options
+                ),
+                'less' => array( // file extension to parse
+                    'class' => 'nizsheanez\assetConverter\Less',
+                    'output' => 'css', // parsed output file type
+                    'options' => array(
+                        'auto' => true, // optional options
                     )
                 )
             )
-        ),
+        )
+    ),
 	),
 
 ~~~
