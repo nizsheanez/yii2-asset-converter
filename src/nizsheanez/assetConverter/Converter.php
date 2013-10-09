@@ -70,7 +70,7 @@ class Converter extends \yii\web\AssetConverter
         $parserConfig = $this->parsers[$ext];
         $resultFile = substr($asset, 0, $extensionPos + 1) . $parserConfig['output'];
 
-        if ($this->force || (@filemtime("$basePath/$resultFile") < filemtime("$basePath/$asset"))) {
+        if ($this->force || (@filemtime("{$this->destinationDir}/$resultFile") < filemtime("$basePath/$asset"))) {
             $this->checkDestinationDir($resultFile);
             $parser = new $parserConfig['class']($parserConfig['options']);
             $parserOptions = isset($parserConfig['options']) ? $parserConfig['options'] : array();
