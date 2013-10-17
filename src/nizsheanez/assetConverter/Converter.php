@@ -10,8 +10,6 @@ namespace nizsheanez\assetConverter;
 
 use Yii;
 
-use yii\base\Component;
-
 class Converter extends \yii\web\AssetConverter
 {
     /**
@@ -39,6 +37,18 @@ class Converter extends \yii\web\AssetConverter
         )
     );
 
+    /**
+     * @var array the commands that are used to perform the asset conversion.
+     * The keys are the asset file extension names, and the values are the corresponding
+     * target script types (either "css" or "js") and the commands used for the conversion.
+     */
+    public $commands = array(
+        'less' => array('css', 'lessc {from} {to}'),
+        'scss' => array('css', 'sass {from} {to}'),
+        'sass' => array('css', 'sass {from} {to}'),
+        'styl' => array('js', 'stylus < {from} > {to}'),
+    );
+
 
     /**
      * @var boolean if true the asset will always be published
@@ -58,18 +68,18 @@ class Converter extends \yii\web\AssetConverter
      */
     public function convert($asset, $basePath)
     {
-        $extensionPos = strrpos($asset, '.');
-        if ($extensionPos === false) {
+        $pos = strrpos($asset, '.');
+        if ($pos === false) {
             return parent::convert($asset, $basePath);
         }
 
-        $ext = substr($asset, $extensionPos + 1);
+        $ext = substr($asset, $pos + 1);
         if (!isset($this->parsers[$ext])) {
             return parent::convert($asset, $basePath);
         }
 
         $parserConfig = $this->parsers[$ext];
-        $resultFile = substr($asset, 0, $extensionPos + 1) . $parserConfig['output'];
+        $resultFile = substr($asset, 0, $pos + 1) . $parserConfig['output'];
 
         if ($this->force || (@filemtime("$basePath/$resultFile") < filemtime("$basePath/$asset"))) {
             $this->checkDestinationDir($resultFile);
@@ -78,11 +88,13 @@ class Converter extends \yii\web\AssetConverter
             $parser->parse("$basePath/$asset", "{$this->destinationDir}/$resultFile", $parserOptions);
 
             if (YII_DEBUG) {
-                Yii::info("Converted $asset into $resultFile ", __CLASS__);
+                Yii::trace("Converted $asset into $resultFile ", __CLASS__);
             }
+
+            return $this->destinationDir . '/' . $resultFile;
         }
 
-        return $this->destinationDir . '/' . $resultFile;
+        return $asset;
     }
 
     public function checkDestinationDir($resultFile)
