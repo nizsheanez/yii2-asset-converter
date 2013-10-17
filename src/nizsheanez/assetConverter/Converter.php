@@ -7,11 +7,13 @@
  */
 
 namespace nizsheanez\assetConverter;
-use Yii;
-use yii\base\Component;
-use yii\web\IAssetConverter;
 
-class Converter extends \yii\web\AssetConverter
+use Yii;
+
+use yii\base\Component;
+use yii\web\AssetConverterInterface;
+
+class Converter extends Component implements \yii\web\AssetConverterInterface
 {
     /**
      * @var array parsers
