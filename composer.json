@@ -1,5 +1,5 @@
 {
-    "name": "nizsheanez/yii2-asset-converter",
+    "name": "philippfrenzel/yii2-asset-converter",
     "description": "Less, Sass and Phamlp converter for Yii2. No system requires. Fork of https://github.com/athos99/assetparser with Composer support, Less autoupdate by Composer, customizing of output directory",
     "type": "library",
     "keywords": ["yii", "yii2", "asset", "converter", "less", "sass", "phamlp"],
@@ -14,6 +14,11 @@
             "name": "Alex Sharov",
             "email": "www.pismeco@gmail.com",
             "role": "Fork Author"
+        },
+        {
+            "name": "Philipp Frenzel",
+            "email": "philipp@Frenzel.net",
+            "role": "Fork Author"
         }
     ],
     "require" : {
@@ -21,6 +26,6 @@
         "richthegeek/phpsass": "dev-master"
     },
     "autoload": {
-        "psr-0": { "nizsheanez": "src" }
+        "psr-0": { "philippfrenzel": "src" }
     }
 }

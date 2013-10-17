@@ -1,5 +1,5 @@
 <?php
-namespace nizsheanez\assetConverter;
+namespace philippfrenzel\assetConverter;
 use yii\base\Object;
 
 abstract class Parser extends Object
