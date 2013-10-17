@@ -13,7 +13,7 @@ use Yii;
 use yii\base\Component;
 use yii\web\AssetConverterInterface;
 
-class Converter extends Component implements \yii\web\AssetConverterInterface
+class AssetConverter extends Component implements AssetConverterInterface
 {
     /**
      * @var array parsers
