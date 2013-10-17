@@ -1,5 +1,5 @@
 <?php
-namespace nizsheanez\assetConverter;
+namespace philippfrenzel\assetConverter;
 use Yii;
 
 class Sass extends Parser

@@ -6,7 +6,7 @@
  * @version 1.0.0 (2011-05-05)
  */
 
-namespace nizsheanez\assetConverter;
+namespace philippfrenzel\assetConverter;
 
 use Yii;
 

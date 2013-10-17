@@ -1,5 +1,6 @@
 <?php
-namespace nizsheanez\assetConverter;
+namespace philippfrenzel\assetConverter;
+
 use Yii;
 use yii\caching\FileCache;
 
@@ -7,9 +8,6 @@ use yii\caching\FileCache;
 class Less extends Parser
 {
     public $auto = false;
-
-
-
 
     /**
      * Parse a Less file to CSS
