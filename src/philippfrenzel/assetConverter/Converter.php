@@ -17,19 +17,19 @@ class Converter extends \yii\web\AssetConverter
      */
     public $parsers = array(
         'sass' => array( // file extension to parse
-            'class' => 'nizsheanez\assetConverter\Sass',
+            'class' => 'philippfrenzel\assetConverter\Sass',
             'output' => 'css', // parsed output file type
             'options' => array(
                 'cachePath' => '@app/runtime/cache/sass-parser' // optional options
             ),
         ),
         'scss' => array( // file extension to parse
-            'class' => 'nizsheanez\assetConverter\Sass',
+            'class' => 'philippfrenzel\assetConverter\Sass',
             'output' => 'css', // parsed output file type
             'options' => array() // optional options
         ),
         'less' => array( // file extension to parse
-            'class' => 'nizsheanez\assetConverter\Less',
+            'class' => 'philippfrenzel\assetConverter\Less',
             'output' => 'css', // parsed output file type
             'options' => array(
                 'auto' => true // optional options
