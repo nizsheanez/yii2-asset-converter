@@ -38,19 +38,6 @@ class Converter extends \yii\web\AssetConverter
     );
 
     /**
-     * @var array the commands that are used to perform the asset conversion.
-     * The keys are the asset file extension names, and the values are the corresponding
-     * target script types (either "css" or "js") and the commands used for the conversion.
-     */
-    public $commands = array(
-        'less' => array('css', 'lessc {from} {to}'),
-        'scss' => array('css', 'sass {from} {to}'),
-        'sass' => array('css', 'sass {from} {to}'),
-        'styl' => array('js', 'stylus < {from} > {to}'),
-    );
-
-
-    /**
      * @var boolean if true the asset will always be published
      */
     public $force = false;
@@ -89,12 +76,10 @@ class Converter extends \yii\web\AssetConverter
 
             if (YII_DEBUG) {
                 Yii::trace("Converted $asset into $resultFile ", __CLASS__);
-            }
-
-            return $this->destinationDir . '/' . $resultFile;
+            }            
         }
 
-        return $asset;
+        return $this->destinationDir . '/' . $resultFile;
     }
 
     public function checkDestinationDir($resultFile)
