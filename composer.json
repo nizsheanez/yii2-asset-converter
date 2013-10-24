@@ -17,6 +17,9 @@
         }
     ],
     "require" : {
+        "php": ">=5.4.0",
+        "yiisoft/yii2": "dev-master",
+        "yiisoft/yii2-composer": "dev-master",
         "leafo/lessphp": "0.4.*",
         "richthegeek/phpsass": "dev-master"
     },
