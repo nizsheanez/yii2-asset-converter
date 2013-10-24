@@ -7,6 +7,7 @@
  */
 
 namespace nizsheanez\assetConverter;
+
 use Yii;
 use yii\base\Component;
 use yii\web\IAssetConverter;
@@ -16,27 +17,27 @@ class Converter extends \yii\web\AssetConverter
     /**
      * @var array parsers
      */
-    public $parsers = array(
-        'sass' => array( // file extension to parse
+    public $parsers = [
+        'sass' => [ // file extension to parse
             'class' => 'nizsheanez\assetConverter\Sass',
             'output' => 'css', // parsed output file type
-            'options' => array(
+            'options' => [
                 'cachePath' => '@app/runtime/cache/sass-parser' // optional options
-            ),
-        ),
-        'scss' => array( // file extension to parse
+            ],
+        ],
+        'scss' => [ // file extension to parse
             'class' => 'nizsheanez\assetConverter\Sass',
             'output' => 'css', // parsed output file type
-            'options' => array() // optional options
-        ),
-        'less' => array( // file extension to parse
+            'options' => [] // optional options
+        ],
+        'less' => [ // file extension to parse
             'class' => 'nizsheanez\assetConverter\Less',
             'output' => 'css', // parsed output file type
-            'options' => array(
+            'options' => [
                 'auto' => true // optional options
-            )
-        )
-    );
+            ]
+        ]
+    ];
 
 
     /**
@@ -70,10 +71,12 @@ class Converter extends \yii\web\AssetConverter
         $parserConfig = $this->parsers[$ext];
         $resultFile = substr($asset, 0, $extensionPos + 1) . $parserConfig['output'];
 
-        if ($this->force || (@filemtime("$basePath/$resultFile") < filemtime("$basePath/$asset"))) {
+        $needRecompile = $this->force || (@filemtime("$basePath/$resultFile") < filemtime("$basePath/$asset"));
+
+        if ($needRecompile) {
             $this->checkDestinationDir($resultFile);
             $parser = new $parserConfig['class']($parserConfig['options']);
-            $parserOptions = isset($parserConfig['options']) ? $parserConfig['options'] : array();
+            $parserOptions = isset($parserConfig['options']) ? $parserConfig['options'] : [];
             $parser->parse("$basePath/$asset", "{$this->destinationDir}/$resultFile", $parserOptions);
 
             if (YII_DEBUG) {
@@ -87,7 +90,7 @@ class Converter extends \yii\web\AssetConverter
     public function checkDestinationDir($resultFile)
     {
         $dist = Yii::getAlias('@webroot/' . $this->destinationDir);
-        $distDir  = dirname("{$dist}/$resultFile");
+        $distDir = dirname("{$dist}/$resultFile");
         if (!is_dir($distDir)) {
             mkdir($distDir, '0755', true);
         }

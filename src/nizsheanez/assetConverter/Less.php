@@ -1,15 +1,12 @@
 <?php
 namespace nizsheanez\assetConverter;
+
 use Yii;
 use yii\caching\FileCache;
-
 
 class Less extends Parser
 {
     public $auto = false;
-
-
-
 
     /**
      * Parse a Less file to CSS
@@ -38,7 +35,7 @@ class Less extends Parser
                 $less = new \lessc();
                 $less->compileFile($src, $dst);
             }
-        } catch (exception $e) {
+        } catch (Exception $e) {
             throw new Exception(__CLASS__ . ': Failed to compile less file : ' . $e->getMessage() . '.');
         }
     }
