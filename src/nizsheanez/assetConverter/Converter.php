@@ -71,7 +71,7 @@ class Converter extends \yii\web\AssetConverter
         $parserConfig = $this->parsers[$ext];
         $resultFile = substr($asset, 0, $extensionPos + 1) . $parserConfig['output'];
 
-        $needRecompile = $this->force || (@filemtime("$basePath/$resultFile") < filemtime("$basePath/$asset"));
+        $needRecompile = $this->force || (@filemtime("{$this->destinationDir}/$resultFile") < filemtime("$basePath/$asset"));
 
         if ($needRecompile) {
             $this->checkDestinationDir($resultFile);
