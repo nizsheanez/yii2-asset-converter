@@ -9,15 +9,15 @@
 namespace nizsheanez\assetConverter;
 
 use Yii;
-use yii\base\Component;
-use yii\web\IAssetConverter;
+use yii\base\Exception;
+use yii\helpers\ArrayHelper;
 
 class Converter extends \yii\web\AssetConverter
 {
     /**
      * @var array parsers
      */
-    public $parsers = [
+    protected $defaultParsersOptions = [
         'sass' => [ // file extension to parse
             'class' => 'nizsheanez\assetConverter\Sass',
             'output' => 'css', // parsed output file type
@@ -39,6 +39,7 @@ class Converter extends \yii\web\AssetConverter
         ]
     ];
 
+    public $parsers = [];
 
     /**
      * @var boolean if true the asset will always be published
@@ -68,20 +69,39 @@ class Converter extends \yii\web\AssetConverter
             return parent::convert($asset, $basePath);
         }
 
-        $parserConfig = $this->parsers[$ext];
+        $parserConfig = ArrayHelper::merge($this->defaultParsersOptions[$ext], $this->parsers[$ext]);
         $resultFile = substr($asset, 0, $extensionPos + 1) . $parserConfig['output'];
 
-        $needRecompile = $this->force || (@filemtime("{$this->destinationDir}/$resultFile") < filemtime("$basePath/$asset"));
+        $from = $basePath . '/' . $asset;
+        $to = $basePath . '/' . $this->destinationDir . '/' . $resultFile;
 
-        if ($needRecompile) {
-            $this->checkDestinationDir($resultFile);
-            $parser = new $parserConfig['class']($parserConfig['options']);
-            $parserOptions = isset($parserConfig['options']) ? $parserConfig['options'] : [];
-            $parser->parse("$basePath/$asset", "{$this->destinationDir}/$resultFile", $parserOptions);
+        $needRecompile = $this->force || (@filemtime($to) < filemtime($from));
+        if (!$needRecompile) {
+            return $this->destinationDir . '/' . $resultFile;
+        }
 
-            if (YII_DEBUG) {
-                Yii::info("Converted $asset into $resultFile ", __CLASS__);
+        $this->checkDestinationDir($resultFile);
+
+        $asConsoleCommand = isset($parserConfig['asConsoleCommand']) && $parserConfig['asConsoleCommand'];
+        if ($asConsoleCommand) { //can't use parent function because it not support destination directory
+            if (!isset($this->commands[$ext])) {
+                throw new Exception('No template for console command for parse file with extension ' . $ext);
             }
+            list ($ext, $command) = $this->commands[$ext];
+            $output = [];
+            $command = strtr($command, [
+                '{from}' => escapeshellarg($from),
+                '{to}' => escapeshellarg($to),
+            ]);
+            exec($command, $output);
+        } else {
+            $parser = new $parserConfig['class']($parserConfig['options']);
+            $parserOptions = isset($parserConfig['options']) ? $parserConfig['options'] : array();
+            $parser->parse($from, $to, $parserOptions);
+        }
+
+        if (YII_DEBUG) {
+            Yii::info("Converted $asset into $resultFile ", __CLASS__);
         }
 
         return $this->destinationDir . '/' . $resultFile;
