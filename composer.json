@@ -4,6 +4,7 @@
     "type": "library",
     "keywords": ["yii", "yii2", "asset", "converter", "less", "sass", "phamlp"],
     "license": "BSD-3-Clause",
+    "minimum-stability": "dev",
     "authors": [
         {
             "name": "Michel Bobillier",
