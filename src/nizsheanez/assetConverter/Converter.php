@@ -39,6 +39,20 @@ class Converter extends \yii\web\AssetConverter
         ]
     ];
 
+    /**
+     * @var array the commands that are used to perform the asset conversion.
+     * The keys are the asset file extension names, and the values are the corresponding
+     * target script types (either "css" or "js") and the commands used for the conversion.
+     */
+    public $commands = [
+        'less' => ['css', 'lessc {from} {to} 2>&1 --no-color'],
+        'scss' => ['css', 'sass {from} {to}'],
+        'sass' => ['css', 'sass {from} {to}'],
+        'styl' => ['js', 'stylus < {from} > {to}'],
+        'coffee' => ['js', 'coffee -p {from} > {to}'],
+        'ts' => ['js', 'tsc --out {to} {from}'],
+    ];
+
     public $parsers = [];
 
     /**
@@ -75,8 +89,7 @@ class Converter extends \yii\web\AssetConverter
         $from = $basePath . '/' . $asset;
         $to = $basePath . '/' . $this->destinationDir . '/' . $resultFile;
 
-        $needRecompile = $this->force || (@filemtime($to) < filemtime($from));
-        if (!$needRecompile) {
+        if (!$this->needRecompile($from, $to)) {
             return $this->destinationDir . '/' . $resultFile;
         }
 
@@ -84,16 +97,7 @@ class Converter extends \yii\web\AssetConverter
 
         $asConsoleCommand = isset($parserConfig['asConsoleCommand']) && $parserConfig['asConsoleCommand'];
         if ($asConsoleCommand) { //can't use parent function because it not support destination directory
-            if (!isset($this->commands[$ext])) {
-                throw new Exception('No template for console command for parse file with extension ' . $ext);
-            }
-            list ($ext, $command) = $this->commands[$ext];
-            $output = [];
-            $command = strtr($command, [
-                '{from}' => escapeshellarg($from),
-                '{to}' => escapeshellarg($to),
-            ]);
-            exec($command, $output);
+            $this->runCommand($ext, $from, $to);
         } else {
             $parser = new $parserConfig['class']($parserConfig['options']);
             $parserOptions = isset($parserConfig['options']) ? $parserConfig['options'] : array();
@@ -105,6 +109,28 @@ class Converter extends \yii\web\AssetConverter
         }
 
         return $this->destinationDir . '/' . $resultFile;
+    }
+
+    public function needRecompile($from, $to)
+    {
+        return $this->force || (@filemtime($to) < filemtime($from));
+    }
+
+    public function runCommand($ext, $from, $to)
+    {
+        if (!isset($this->commands[$ext])) {
+            throw new Exception('No template for console command for parse file with extension ' . $ext);
+        }
+        list ($ext, $command) = $this->commands[$ext];
+        $output = [];
+        $command = strtr($command, [
+            '{from}' => escapeshellarg($from),
+            '{to}' => escapeshellarg($to),
+        ]);
+        exec($command, $output, $exit_code);
+        if ($exit_code == 1) {
+            throw new Exception(array_shift($output));
+        }
     }
 
     public function checkDestinationDir($resultFile)
