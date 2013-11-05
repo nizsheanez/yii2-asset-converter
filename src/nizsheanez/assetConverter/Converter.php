@@ -129,7 +129,12 @@ class Converter extends \yii\web\AssetConverter
         ]);
         exec($command, $output, $exit_code);
         if ($exit_code == 1) {
-            throw new Exception(array_shift($output));
+            $error = array_shift($output);
+            if (YII_DEBUG) {
+                throw new Exception($error);
+            } else {
+                Yii::error("Converted $from into $to with error: $error", __CLASS__);
+            }
         }
     }
 
