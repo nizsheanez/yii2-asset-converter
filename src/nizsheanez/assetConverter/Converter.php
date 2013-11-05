@@ -128,7 +128,7 @@ class Converter extends \yii\web\AssetConverter
             '{to}' => escapeshellarg($to),
         ]);
         exec($command, $output, $exit_code);
-        if ($exit_code == 1) {
+        if ($exit_code > 0) {
             $error = array_shift($output);
             if (YII_DEBUG) {
                 throw new Exception($error);
