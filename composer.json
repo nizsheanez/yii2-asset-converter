@@ -25,7 +25,7 @@
         "richthegeek/phpsass": "dev-master"
     },
     "autoload": {
-        "psr-0": { "nizsheanez": "" }
+        "psr-0": { "nizsheanez\\assetConverter\\": "" }
     },
-    "target-dir": "nizsheanez"
+    "target-dir": "nizsheanez/assetConverter"
 }
