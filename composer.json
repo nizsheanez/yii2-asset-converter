@@ -26,5 +26,6 @@
     },
     "autoload": {
         "psr-0": { "nizsheanez": "src" }
-    }
+    },
+    "target-dir": "yii/asset-converter"
 }
