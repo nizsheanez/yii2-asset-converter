@@ -39,20 +39,6 @@ class Converter extends \yii\web\AssetConverter
         ]
     ];
 
-    /**
-     * @var array the commands that are used to perform the asset conversion.
-     * The keys are the asset file extension names, and the values are the corresponding
-     * target script types (either "css" or "js") and the commands used for the conversion.
-     */
-    public $commands = [
-        'less' => ['css', 'lessc {from} {to} 2>&1 --no-color'],
-        'scss' => ['css', 'sass {from} {to}'],
-        'sass' => ['css', 'sass {from} {to}'],
-        'styl' => ['js', 'stylus < {from} > {to}'],
-        'coffee' => ['js', 'coffee -p {from} > {to}'],
-        'ts' => ['js', 'tsc --out {to} {from}'],
-    ];
-
     public $parsers = [];
 
     /**
@@ -73,31 +59,34 @@ class Converter extends \yii\web\AssetConverter
      */
     public function convert($asset, $basePath)
     {
-        $extensionPos = strrpos($asset, '.');
-        if ($extensionPos === false) {
+        $pos = strrpos($asset, '.');
+        if ($pos === false) {
             return parent::convert($asset, $basePath);
         }
 
-        $ext = substr($asset, $extensionPos + 1);
+        $ext = substr($asset, $pos + 1);
         if (!isset($this->parsers[$ext])) {
             return parent::convert($asset, $basePath);
         }
 
         $parserConfig = ArrayHelper::merge($this->defaultParsersOptions[$ext], $this->parsers[$ext]);
-        $resultFile = substr($asset, 0, $extensionPos + 1) . $parserConfig['output'];
+        $resultFile = '/' . $this->destinationDir . '/' . substr($asset, 0, $pos + 1) . $parserConfig['output'];
 
         $from = $basePath . '/' . $asset;
-        $to = $basePath . '/' . $this->destinationDir . '/' . $resultFile;
+        $to = $basePath . $resultFile;
 
         if (!$this->needRecompile($from, $to)) {
-            return $this->destinationDir . '/' . $resultFile;
+            return $resultFile;
         }
 
-        $this->checkDestinationDir($resultFile);
+        $this->checkDestinationDir($basePath, $resultFile);
 
         $asConsoleCommand = isset($parserConfig['asConsoleCommand']) && $parserConfig['asConsoleCommand'];
         if ($asConsoleCommand) { //can't use parent function because it not support destination directory
-            $this->runCommand($ext, $from, $to);
+            if (isset($this->commands[$ext])) {
+                list ($distExt, $command) = $this->commands[$ext];
+                $this->runCommand($command, $basePath, $asset, $resultFile);
+            }
         } else {
             $parser = new $parserConfig['class']($parserConfig['options']);
             $parserOptions = isset($parserConfig['options']) ? $parserConfig['options'] : array();
@@ -108,7 +97,7 @@ class Converter extends \yii\web\AssetConverter
             Yii::info("Converted $asset into $resultFile ", __CLASS__);
         }
 
-        return $this->destinationDir . '/' . $resultFile;
+        return $resultFile;
     }
 
     public function needRecompile($from, $to)
@@ -116,32 +105,9 @@ class Converter extends \yii\web\AssetConverter
         return $this->force || (@filemtime($to) < filemtime($from));
     }
 
-    public function runCommand($ext, $from, $to)
+    public function checkDestinationDir($basePath, $file)
     {
-        if (!isset($this->commands[$ext])) {
-            throw new Exception('No template for console command for parse file with extension ' . $ext);
-        }
-        list ($ext, $command) = $this->commands[$ext];
-        $output = [];
-        $command = strtr($command, [
-            '{from}' => escapeshellarg($from),
-            '{to}' => escapeshellarg($to),
-        ]);
-        exec($command, $output, $exit_code);
-        if ($exit_code > 0) {
-            $error = array_shift($output);
-            if (YII_DEBUG) {
-                throw new Exception($error);
-            } else {
-                Yii::error("Converted $from into $to with error: $error", __CLASS__);
-            }
-        }
-    }
-
-    public function checkDestinationDir($resultFile)
-    {
-        $dist = Yii::getAlias('@webroot/' . $this->destinationDir);
-        $distDir = dirname("{$dist}/$resultFile");
+        $distDir = dirname($basePath . $file);
         if (!is_dir($distDir)) {
             mkdir($distDir, '0755', true);
         }
