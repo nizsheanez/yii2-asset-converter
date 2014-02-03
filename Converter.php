@@ -52,6 +52,11 @@ class Converter extends \yii\web\AssetConverter
     public $destinationDir = 'compiled';
 
     /**
+     * @var string permissions to assign to $destinationDir.
+     */
+    public $destinationDirPerms = 0755;
+
+    /**
      * Converts a given asset file into a CSS or JS file.
      * @param string $asset the asset file path, relative to $basePath
      * @param string $basePath the directory the $asset is relative to.
@@ -109,7 +114,7 @@ class Converter extends \yii\web\AssetConverter
     {
         $distDir = dirname($basePath . $file);
         if (!is_dir($distDir)) {
-            mkdir($distDir, '0755', true);
+            mkdir($distDir, $this->destinationDirPerms, true);
         }
     }
 }
