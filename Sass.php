@@ -9,7 +9,7 @@ class Sass extends Parser
     /**
      * @var string to the class pointing to where sass parser is located.
      */
-    public $sassParserClass = '@app/extensions/assetparser/vendors/phamlp/sass/SassParser';
+    public $sassParserClass = '\SassParser';
 
     /**
      * @var string to the sass parser cache
