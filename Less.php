@@ -30,13 +30,13 @@ class Less extends Parser
      *
      * @var array
      */
-    public $variables = [];
+    public $variables       = [];
 
     /**
      * Temporary runtime data so the event handlers can access it
      * @var array
      */
-    public $runtime = null;
+    public $runtime         = null;
 
     /**
      * Parse a Less file to CSS
@@ -67,13 +67,8 @@ class Less extends Parser
 
         // Send out pre-compile event
         $event = new \yii\base\Event();
-        $this->runtime = [
-            'sourceFile' => $src,
-            'destinationFile' => $dst,
-            'compiler' => $less,
-        ];
+        $this->runtime = ['sourceFile' => $src, 'destinationFile' => $dst, 'compiler' => $less];
         $event->sender = $this;
-
         Event::trigger($this, self::EVENT_BEFORE_COMPILE, $event);
 
         try {
