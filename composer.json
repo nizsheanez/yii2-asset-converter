@@ -16,7 +16,7 @@
         "php": ">=5.4.0",
         "yiisoft/yii2": "2.*",
         "yiisoft/yii2-composer": "2.*",
-        "oyejorge/less.php": "1.7.*",
+        "oyejorge/less.php": "dev-master",
         "richthegeek/phpsass": "dev-master"
     },
     "autoload": {
