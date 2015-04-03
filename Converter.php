@@ -77,7 +77,7 @@ class Converter extends \yii\web\AssetConverter
         $parserConfig = ArrayHelper::merge($this->defaultParsersOptions[$ext], $this->parsers[$ext]);
         if ($this->destinationDir) {
             $this->destinationDir .= '/';
-	}
+        }
         $resultFile = $this->destinationDir . substr($asset, 0, $pos + 1) . $parserConfig['output'];
 
         $from = $basePath . '/' . $asset;
@@ -115,9 +115,12 @@ class Converter extends \yii\web\AssetConverter
 
     public function checkDestinationDir($basePath, $file)
     {
-        $distDir = dirname($basePath . '/' . $file);
-        if (!is_dir($distDir)) {
-            mkdir($distDir, $this->destinationDirPerms, true);
+        $dstDir = dirname($basePath . '/' . $file);
+        if (!is_dir($dstDir)) {
+            mkdir($dstDir, $this->destinationDirPerms, true);
+            $assetManager = \Yii::$app->assetManager;
+            if ($assetManager->dirMode)
+                @chmod($dstDir, $assetManager->dirMode);
         }
     }
 }
