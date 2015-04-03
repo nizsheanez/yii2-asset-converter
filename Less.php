@@ -81,7 +81,6 @@ class Less extends Parser
                 if ($cache === false || (@filemtime($dst) < @filemtime($src))) {
                     $cache = $src;
                 }
-                $less = new \lessc();
                 $newCache = $less->cachedCompile($cache);
 
                 if (!is_array($cache) || ($newCache["updated"] > $cache["updated"])) {
@@ -89,7 +88,6 @@ class Less extends Parser
                     file_put_contents($dst, $newCache['compiled']);
                 }
             } else {
-                $less = new \lessc();
                 $less->compileFile($src, $dst);
             }
 
