@@ -26,11 +26,9 @@ class Converter extends \yii\web\AssetConverter
             ],
         ],
         'scss' => [ // file extension to parse
-            'class' => 'nizsheanez\assetConverter\Scss',
+            'class' => 'nizsheanez\assetConverter\Sass',
             'output' => 'css', // parsed output file type
-            'options' => [
-            	'enableCompass' => true // optional options
-    	    ],
+            'options' => [],
         ],
         'less' => [ // file extension to parse
             'class' => 'nizsheanez\assetConverter\Less',
