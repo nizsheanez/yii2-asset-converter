@@ -90,13 +90,9 @@ But you can change it by destinationDir property from config
                     ),
                 ),
                 'scss' => array( // file extension to parse
-                    'class' => 'nizsheanez\assetConverter\Scss',
+                    'class' => 'nizsheanez\assetConverter\Sass',
                     'output' => 'css', // parsed output file type
-                    'options' => array( // optional options
-            	        'enableCompass' => true, // default is true
-            	        'importPaths' => array(), // import paths, you may use path alias here, 
-            	                                  // e.g., `['@path/to/dir', '@path/to/dir1', ...]`
-    	    	    ),
+                    'options' => array(),
                 ),
                 'less' => array( // file extension to parse
                     'class' => 'nizsheanez\assetConverter\Less',
