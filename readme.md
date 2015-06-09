@@ -92,7 +92,7 @@ But you can change it by destinationDir property from config
                 'scss' => array( // file extension to parse
                     'class' => 'nizsheanez\assetConverter\Sass',
                     'output' => 'css', // parsed output file type
-                    'options' => array(),
+                    'options' => array() // optional options
                 ),
                 'less' => array( // file extension to parse
                     'class' => 'nizsheanez\assetConverter\Less',
@@ -106,4 +106,31 @@ But you can change it by destinationDir property from config
     ),
 ),
 
+~~~
+
+Also, for SCSS files you can use alternate configuration:
+
+~~~php
+'components' => array(
+    'assetManager' => array(
+            'converter'=>array(
+                // ...
+                'parsers' => array(
+                    // ...
+                    'scss' => array( // file extension to parse
+                        'class' => 'nizsheanez\assetConverter\Scss',
+                        'output' => 'css', // parsed output file type
+                        'options' => array( // optional options
+                            'enableCompass' => true, // default is true
+                            'importPaths' => array(), // import paths, you may use path alias here, 
+                                // e.g., `['@path/to/dir', '@path/to/dir1', ...]`
+                            'lineComments' => false, // if true — compiler will place line numbers in your compiled output
+                            'outputStyle' => 'nested', // May be `compressed`, `crunched`, `expanded` or `nested`,
+                                // see more at http://sass-lang.com/documentation/file.SASS_REFERENCE.html#output_style
+                        ),
+                    ),
+                ),
+            ),
+        ),
+    // ...
 ~~~
