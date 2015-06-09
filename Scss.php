@@ -22,15 +22,14 @@ class Scss extends Parser
     public $importPaths = [];
 
     /**
-     * @var bool if you set this to true, compiler will place line numbers in your compiled output
+     * @var bool if is true, compiler will place line numbers in your compiled output
      */
     public $lineComments = false;
 
     /**
-     * @var string formatter
+     * @var string output style
      */
-    public $formatter = 'nested';
-
+    public $outputStyle = 'nested';
 
     /**
      * @var array defined formatters
@@ -51,9 +50,11 @@ class Scss extends Parser
      */
     public function parse($src, $dst, $options)
     {
-        $this->importPaths = !empty($options['importPaths']) ? $options['importPaths'] : $this->importPaths;
+        $this->importPaths   = !empty($options['importPaths']) ? $options['importPaths'] : $this->importPaths;
         $this->enableCompass = isset($options['enableCompass']) ? $options['enableCompass'] : $this->enableCompass;
-        $this->lineComments = isset($options['lineComments']) ? $options['lineComments'] : $this->lineComments;
+        $this->lineComments  = isset($options['lineComments']) ? $options['lineComments'] : $this->lineComments;
+        $this->outputStyle   = isset($options['outputStyle']) ? $options['outputStyle'] : $this->outputStyle;
+        $this->outputStyle   = strtolower($this->outputStyle);
 
         $parser = new \Leafo\ScssPhp\Compiler();
         if (!empty($this->importPaths) && is_array($this->importPaths)) {
@@ -64,16 +65,12 @@ class Scss extends Parser
             $parser->setImportPaths($paths);
         }
 
-        if (isset($options['formatter']) && in_array($options['formatter'], $this->formatters)) {
-            if ($this->lineComments && in_array($options['formatter'], ['compressed', 'crunched'])) {
+        if (in_array($this->outputStyle, $this->formatters)) {
+            if ($this->lineComments && in_array($this->outputStyle, ['compressed', 'crunched'])) {
                 $this->lineComments = false;
             }
-            $formatter = 'Leafo\\ScssPhp\\Formatter\\' . ucfirst($options['formatter']);
-        } else {
-            $formatter = 'Leafo\\ScssPhp\\Formatter\\' . ucfirst($this->formatter);
+            $parser->setFormatter('Leafo\\ScssPhp\\Formatter\\' . ucfirst($this->outputStyle));
         }
-
-        $parser->setFormatter($formatter);
 
         if ($this->enableCompass) {
             new \scss_compass($parser);
@@ -84,7 +81,7 @@ class Scss extends Parser
         }
 
         if ($this->lineComments) {
-            $content = self::insertLineComments($src, self::relativeFilename($src, $dst));
+            $content = self::insertLineComments($src, self::getRelativeFilename($src, $dst));
             file_put_contents($dst, self::parseLineComments($parser->compile($content, $src)));
         } else {
             file_put_contents($dst, $parser->compile(file_get_contents($src), $src));
@@ -98,19 +95,19 @@ class Scss extends Parser
      * @param string $dst
      * @return string
      */
-    protected static function relativeFilename($src, $dst) {
-        for ($last = 0, $count = 1; true; $count++) {
-            $similar = similar_text(substr($src, 0, $count), substr($dst, 0, $count));
-            if ($similar <= $last) {
+    protected static function getRelativeFilename($src, $dst) {
+        $src = explode('/', $src);
+        $dst = explode('/', $dst);
+        for ($index=1, $count=count($src); $index<$count; $index++) {
+            if (!isset($src[$index]) || !isset($dst[$index]) || $src[$index] !== $dst[$index]) {
                 break;
             }
-            $last = $similar;
         }
-        return str_repeat('../', substr_count(substr($dst, $count-2), '/')) . substr($src, $count-2);
+        return str_repeat('../', count($dst)-$index-1) . implode('/', array_slice($src, $index));
     }
 
     /**
-     * Insert line numbers comments
+     * Inserts the line numbers into comments
      *
      * @param string $src
      * @param string $filename
@@ -137,7 +134,7 @@ class Scss extends Parser
     }
 
     /**
-     * Parse line numbers comments and put it in the header of the block
+     * Parses the line numbers comments and moves them into the header of the block
      *
      * @param string $content
      * @return string
