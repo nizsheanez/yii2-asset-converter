@@ -4,7 +4,6 @@
     "type": "yii2-extension",
     "keywords": ["yii", "yii2", "asset", "converter", "less", "sass", "scss", "compass", "phamlp"],
     "license": "BSD-3-Clause",
-    "minimum-stability": "dev",
     "authors": [
         {
             "name": "Alex Sharov",
@@ -17,9 +16,9 @@
         "yiisoft/yii2": "2.*",
         "yiisoft/yii2-composer": "2.*",
         "oyejorge/less.php": "1.7.0.*",
-        "richthegeek/phpsass": "dev-master",
-        "leafo/scssphp": "dev-master",
-        "leafo/scssphp-compass": "dev-master"
+        "richthegeek/phpsass": "1.*",
+        "leafo/scssphp": "0.*",
+        "yourilima/scssphp-compass": "1.*"
     },
     "autoload": {
         "psr-0": { "nizsheanez\\assetConverter\\": "" }
