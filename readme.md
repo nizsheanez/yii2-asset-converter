@@ -1,5 +1,5 @@
 Only for YII2 with the new Asset Manager, convert Less and Sass files to CSS whithout external tools and executable.
-The sass and less files are converted with PHP librairies
+The sass and less files are converted with PHP libraries
 It replace the AssetConverter who use external tools.
 The Less and Sass file are converted with time source files dependency.
 
