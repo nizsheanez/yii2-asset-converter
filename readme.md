@@ -24,12 +24,12 @@ php composer.phar update
 2) Modify assetManager in your configuration file {app}/protected/config/main.php
 
 ~~~php
-    'assetManager' => array(
+    'assetManager' => [
         'bundles' => require(__DIR__ . '/assets.php'),
-        'converter'=>array(
+        'converter'=> [
             'class'=>'nizsheanez\assetConverter\Converter',
-        )
-    ),
+        ]
+    ],
 ~~~
 
 3) Create .gitignore in
@@ -43,25 +43,25 @@ php composer.phar update
 
 ~~~php
 
-return array(
-	'app' => array(
+return [
+	'app' => [
 		'basePath' => '@webroot',
 		'baseUrl' => '@web',
-        'css' => array(
+        'css' => [
 			'css/bootstrap.min.css',
 			'css/bootstrap-responsive.min.css',
 			'css/site.css',
             'css/less_style.less',
             'css/sass_style.sass',
-		),
-		'js' => array(
+		],
+		'js' => [
 
-		),
-		'depends' => array(
+		],
+		'depends' => [
 			'yii',
-		),
-	),
-);
+		],
+	],
+];
 
 ~~~
 
@@ -75,62 +75,62 @@ But you can change it by destinationDir property from config
 
 ~~~php
 
-'components' => array(
-	'assetManager' => array(
-        'converter'=>array(
-            'class'=>'nizsheanez\assetConverter\Converter',
-            'force'=>false, // true : If you want convert your sass each time without time dependency
+'components' => [
+	'assetManager' => [
+        'converter'=> [
+            'class'=> 'nizsheanez\assetConverter\Converter',
+            'force'=> false, // true : If you want convert your sass each time without time dependency
             'destinationDir' => 'compiled', //at which folder of @webroot put compiled files
-            'parsers' => array(
-                'sass' => array( // file extension to parse
+            'parsers' => [
+                'sass' => [ // file extension to parse
                     'class' => 'nizsheanez\assetConverter\Sass',
                     'output' => 'css', // parsed output file type
-                    'options' => array(
+                    'options' => [
                         'cachePath' => '@app/runtime/cache/sass-parser' // optional options
-                    ),
-                ),
-                'scss' => array( // file extension to parse
+                    ],
+                ],
+                'scss' => [ // file extension to parse
                     'class' => 'nizsheanez\assetConverter\Sass',
                     'output' => 'css', // parsed output file type
-                    'options' => array() // optional options
-                ),
-                'less' => array( // file extension to parse
+                    'options' => [] // optional options
+                ],
+                'less' => [ // file extension to parse
                     'class' => 'nizsheanez\assetConverter\Less',
                     'output' => 'css', // parsed output file type
-                    'options' => array(
+                    'options' => [
                         'auto' => true, // optional options
-                    )
-                )
-            )
-        )
-    ),
-),
+                    ]
+                ]
+            ]
+        ]
+    ],
+],
 
 ~~~
 
 Also, for SCSS files you can use alternate configuration:
 
 ~~~php
-'components' => array(
-    'assetManager' => array(
-            'converter'=>array(
+'components' => [
+    'assetManager' => [
+            'converter'=> [
                 // ...
-                'parsers' => array(
+                'parsers' => [
                     // ...
-                    'scss' => array( // file extension to parse
+                    'scss' => [ // file extension to parse
                         'class' => 'nizsheanez\assetConverter\Scss',
                         'output' => 'css', // parsed output file type
-                        'options' => array( // optional options
+                        'options' => [ // optional options
                             'enableCompass' => true, // default is true
-                            'importPaths' => array(), // import paths, you may use path alias here, 
+                            'importPaths' => [], // import paths, you may use path alias here, 
                                 // e.g., `['@path/to/dir', '@path/to/dir1', ...]`
                             'lineComments' => false, // if true — compiler will place line numbers in your compiled output
                             'outputStyle' => 'nested', // May be `compressed`, `crunched`, `expanded` or `nested`,
                                 // see more at http://sass-lang.com/documentation/file.SASS_REFERENCE.html#output_style
-                        ),
-                    ),
-                ),
-            ),
-        ),
+                        ],
+                    ],
+                ],
+            ],
+        ],
     // ...
 ~~~
