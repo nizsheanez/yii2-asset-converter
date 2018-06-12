@@ -1,4 +1,5 @@
 <?php
+
 namespace nizsheanez\assetConverter;
 
 use yii\base\BaseObject;
