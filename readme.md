@@ -98,6 +98,7 @@ But you can change it by destinationDir property from config
                     'class' => 'nizsheanez\assetConverter\Less',
                     'output' => 'css', // parsed output file type
                     'options' => [
+		    	'importDirs' => [], // import paths, you may use path alias here ex. '@app/assets/common/less'
                         'auto' => true, // optional options
                     ]
                 ]
