@@ -19,6 +19,9 @@ class Less extends Parser
     /** @var bool           If true, adjust urls to be relative, false means don't touch */
     public $relativeUrls    = true;
 
+    /** @var array           In this dirs less compiler find @import files */
+    public $importDirs      = [];    
+    
     /**
      * Set of variables to register and that will be available in the less files.
      * Note: The value should be in less format (strings are double quoted etc)
@@ -57,6 +60,7 @@ class Less extends Parser
 
         $less = new \lessc();
         $less->setVariables($variables);
+        $less->setImportDir(array_map(function($dir){ return Yii::getAlias($dir); }, $this->importDirs));
 
         // Compressed setting
         if ($this->compressed) {
