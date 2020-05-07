@@ -56,7 +56,7 @@ class Scss extends Parser
         $this->outputStyle   = isset($options['outputStyle']) ? $options['outputStyle'] : $this->outputStyle;
         $this->outputStyle   = strtolower($this->outputStyle);
 
-        $parser = new \Leafo\ScssPhp\Compiler();
+        $parser = new \ScssPhp\ScssPhp\Compiler();
         if (!empty($this->importPaths) && is_array($this->importPaths)) {
             $paths = [''];
             foreach ($this->importPaths as $path) {
@@ -69,7 +69,7 @@ class Scss extends Parser
             if ($this->lineComments && in_array($this->outputStyle, ['compressed', 'crunched'])) {
                 $this->lineComments = false;
             }
-            $parser->setFormatter('Leafo\\ScssPhp\\Formatter\\' . ucfirst($this->outputStyle));
+            $parser->setFormatter('ScssPhp\\ScssPhp\\Formatter\\' . ucfirst($this->outputStyle));
         }
 
         if ($this->enableCompass) {
